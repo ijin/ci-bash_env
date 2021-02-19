@@ -19,8 +19,10 @@ jobs:
 
 commands:
   set-env:
-    name: "set env var"
-    command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
+    steps:           
+      - run:
+          name: "set env var"
+          command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
 
 workflows:
   build:
