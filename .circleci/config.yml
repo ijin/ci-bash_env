@@ -2,6 +2,8 @@ version: 2.1
 
 jobs:
   build: 
+    environment:
+       ECS_SERVICE: service
     docker:
       - image: circleci/node:10.0-browsers
         auth:
@@ -11,18 +13,35 @@ jobs:
       - checkout
       - set-env
       - run:
-          name: "What branch am I on?"
+          name: branch name
           command: echo ${CIRCLE_BRANCH}
       - run:
-          name: "What was my custom environment variable?"
-          command: echo ${MY_ENV_VAR}
+          name: custom envs
+          command: |
+            echo $SHA1
+            echo $SHORT_ENV
+            echo $NAME
 
 commands:
   set-env:
     steps:           
       - run:
-          name: "set env var"
-          command: echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
+          name: set env var
+          shell: /bin/bash
+          command: |
+            set -e
+            export SHA1=$(echo ${CIRCLE_SHA1} | cut -c1-7)
+             
+            shopt -s extglob
+            case "$CIRCLE_BRANCH" in
+              main)
+                export SHORT_ENV=dev;;
+            esac
+            export NAME=my-project-${SHORT_ENV}-${ECS_SERVICE}
+             
+            echo 'export SHA1="${SHA1}"' >> $BASH_ENV
+            echo 'export SHORT_ENV="${SHORT_ENV}"' >> $BASH_ENV
+            echo 'export NAME="${NAME}"' >> $BASH_ENV
 
 workflows:
   build:
