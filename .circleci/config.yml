@@ -30,7 +30,7 @@ commands:
           shell: /bin/bash
           command: |
             set -e
-            export SHA1=$(echo ${CIRCLE_SHA1} | cut -c1-7)
+            export SHA1=${CIRCLE_SHA1:0:7}
              
             shopt -s extglob
             case "$CIRCLE_BRANCH" in
