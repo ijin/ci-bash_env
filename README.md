@@ -1,1 +1,1 @@
-CircleCI $BASH_ENV example
+CircleCI `$BASH_ENV` example
