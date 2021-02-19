@@ -39,9 +39,9 @@ commands:
             esac
             export NAME=my-project-${SHORT_ENV}-${ECS_SERVICE}
              
-            echo 'export SHA1="${SHA1}"' >> $BASH_ENV
-            echo 'export SHORT_ENV="${SHORT_ENV}"' >> $BASH_ENV
-            echo 'export NAME="${NAME}"' >> $BASH_ENV
+            echo "export SHA1=${SHA1}" >> $BASH_ENV
+            echo "export SHORT_ENV=${SHORT_ENV}" >> $BASH_ENV
+            echo "export NAME=${NAME}" >> $BASH_ENV
 
 workflows:
   build:
